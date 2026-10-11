@@ -1,0 +1,22 @@
+# Account credentials and local configuration
+*.ini
+*.env
+.env*
+*token*.txt
+*ukey*.txt
+*cookie*.txt
+
+# Editor and temporary output
+.vs/
+.vscode/
+obj/
+work/
+*.log
+self-test*.txt
+smoke*.png
+smoke*.txt
+
+# Bin contains the explicitly published executable and checksum only
+bin/*
+!bin/QQAvatarTool.exe
+!bin/SHA256SUMS.txt
