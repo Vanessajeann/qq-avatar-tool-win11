@@ -1,0 +1,44 @@
+Version: 1.0.1
+Build: PASS (.NET Framework csc.exe)
+Main form smoke test: PASS
+Live localhost:3000 unauthenticated get_login_info: HTTP 403; no avatar changed
+
+PASS: transparent PNG signature
+PASS: transparent PNG alpha is zero
+PASS: 50 percent alpha
+PASS: frame delimiters
+PASS: big endian frame lengths
+PASS: legacy command and avatar type
+PASS: 104 byte ticket field
+PASS: MD5 fields
+PASS: small world extension field
+PASS: invalid ticket rejected
+PASS: account query injection rejected
+PASS: invalid server rejected
+PASS: truncated protobuf rejected
+PASS: zero protobuf field rejected
+PASS: invalid image rejected
+PASS: fragmented response read completely
+PASS: truncated frame rejected
+PASS: oversized response rejected
+PASS: response status does not claim unverified completion
+PASS: group ID mapping
+PASS: local socket fragmented receive
+PASS: animated GIF input
+PASS: animated opacity does not silently flatten
+PASS: GIF to APNG animation control
+PASS: bridge excludes remote destinations
+PASS: bridge rejects unexpected paths
+PASS: QQNT mock bridge success response
+PASS: QQNT bridge request count and local image bytes case 0
+PASS: temporary image cleaned after response case 0
+PASS: bridge prevents upload to wrong account
+PASS: mismatched login sends no avatar
+PASS: large NapCat Base64 error preserves reason and redacts image/token
+PASS: QQNT bridge request count and local image bytes case 1
+PASS: temporary image cleaned after response case 1
+PASS: WebUI endpoint reported correctly
+PASS: QQNT bridge request count and local image bytes case 2
+PASS: HTTP 403 identifies wrong token
+PASS: QQNT bridge request count and local image bytes case 3
+Offline only: no QQ account, credential extraction, or Tencent upload exercised.
