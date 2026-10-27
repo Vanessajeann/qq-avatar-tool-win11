@@ -1,0 +1,56 @@
+name: Android avatar APK
+on:
+  push:
+    branches: [android-apk]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract reviewed Android source
+        run: unzip -o Sherry-QQAvatar-v0.1.0-test1-source.zip 'android/*'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.11.1'
+      - name: Restore test signing identity
+        uses: actions/cache@v4
+        with:
+          path: ~/.android/debug.keystore
+          key: sherry-qqavatar-test-signing-v1
+      - name: Build, test and lint
+        run: gradle -p android --no-daemon :app:testDebugUnitTest :app:assembleDebug :app:lintDebug
+      - name: Independently verify APNG output
+        run: |
+          python3 -m pip install Pillow==11.1.0
+          python3 android/tools/verify_apng.py
+      - name: Verify and package
+        run: |
+          mkdir -p deliverables
+          cp android/app/build/outputs/apk/debug/app-debug.apk deliverables/Sherry-QQAvatar-v0.1.0-test1.apk
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose --print-certs deliverables/*.apk > deliverables/signature.txt
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging deliverables/*.apk > deliverables/package.txt
+          cd deliverables
+          sha256sum *.apk > SHA256SUMS.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Sherry-QQAvatar-v0.1.0-test1
+          path: deliverables/
+          retention-days: 90
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: android-test-reports
+          path: |
+            android/app/build/reports/
+            android/app/build/test-results/
+            android/app/build/qa/
+          retention-days: 30
